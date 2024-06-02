@@ -9,7 +9,6 @@ import com.jakubhoryd.pages.LoginPage;
 import com.jakubhoryd.tests.BaseTest;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -17,16 +16,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class AddNewPostTest extends BaseTest {
 
 
-    private LoginPage loginPage;
-    private BuzzPage buzzPage;
-    private DashboardPage dashboardPage;
+    private LoginPage loginPage = new LoginPage();
+    private BuzzPage buzzPage = new BuzzPage();
+    private DashboardPage dashboardPage = new DashboardPage();
 
-    @BeforeMethod
-    public void beforeMethod() {
-        loginPage = new LoginPage(driver, wait);
-        buzzPage = new BuzzPage(driver, wait);
-        dashboardPage = new DashboardPage(driver, wait);
-    }
 
     @Test(description = "BuzzPage: Share new post without attachments")
     @TestRail(id = "5")

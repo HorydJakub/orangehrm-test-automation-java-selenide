@@ -1,26 +1,25 @@
 package com.jakubhoryd.elements.buzz;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 
-import static org.openqa.selenium.support.ui.ExpectedConditions.*;
+import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.Selenide.$;
 
 public class PublishedPostArea {
 
-    private WebDriverWait wait;
+    private final SelenideElement postBodyTextContent;
+    private final SelenideElement successIndicator;
 
-    private static final By POSTS_BODY_TEXT_LOCATOR = By.cssSelector("p.orangehrm-buzz-post-body-text");
-    private static final By SUCCESS_INDICATOR = By.cssSelector(".oxd-toast--success ");
-
-    public PublishedPostArea(WebDriver driver, WebDriverWait wait) {
-        this.wait = wait;
-        PageFactory.initElements(driver, this);
+    public PublishedPostArea() {
+        postBodyTextContent = $("p.orangehrm-buzz-post-body-text");
+        successIndicator = $(".oxd-toast--success ");
     }
 
     public String getTextPostContentFromNewestPost() {
-        wait.until(visibilityOfElementLocated(SUCCESS_INDICATOR));
-        return wait.until(visibilityOfElementLocated(POSTS_BODY_TEXT_LOCATOR)).getText();
+        successIndicator.should(appear);
+        successIndicator.should(disappear);
+        Selenide.refresh();
+        return postBodyTextContent.getText();
     }
 }

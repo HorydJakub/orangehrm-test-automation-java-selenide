@@ -1,32 +1,21 @@
 package com.jakubhoryd.elements;
 
-import com.jakubhoryd.core.utils.PropertyHelper;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import com.codeborne.selenide.SelenideElement;
 
-import java.time.Duration;
-
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOf;
+import static com.codeborne.selenide.Selenide.$;
 
 public class Navbar {
 
-    private final WebDriverWait wait;
-    @FindBy(css = "header.oxd-topbar")
-    private WebElement navbar;
 
-    @FindBy(css = ".oxd-topbar-header-breadcrumb-module")
-    public WebElement title;
+    private SelenideElement navbar;
+    private SelenideElement title;
 
-    public Navbar(WebDriver driver) {
-        PageFactory.initElements(driver, this);
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(PropertyHelper.getWaitingTimeForElements()));
+    public Navbar() {
+        navbar = $("header.oxd-topbar");
+        title = $(".oxd-topbar-header-breadcrumb-module");
     }
 
     public String getPageTitle() {
-        wait.until(visibilityOf(title));
         return title.getText();
     }
 }
