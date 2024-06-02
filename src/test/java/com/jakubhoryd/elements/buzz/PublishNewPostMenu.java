@@ -1,33 +1,33 @@
 package com.jakubhoryd.elements.buzz;
 
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static com.codeborne.selenide.Condition.enabled;
+import static com.codeborne.selenide.Selenide.$;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 public class PublishNewPostMenu {
 
-    private WebDriverWait wait;
 
-    private static final By POST_TEXT_CONTENT_TEXTAREA_LOCATOR = By.cssSelector("div.oxd-buzz-post--active textarea");
-    private static final By POST_BUTTON_LOCATOR = By.cssSelector("div.oxd-buzz-post-slot button");
+    private final SelenideElement textContentTextArea;
+    private final SelenideElement postButton;
 
-    public PublishNewPostMenu(WebDriver driver, WebDriverWait wait) {
-        this.wait = wait;
-        PageFactory.initElements(driver, this);
+    public PublishNewPostMenu() {
+        textContentTextArea = $("div.oxd-buzz-post--active textarea");
+        postButton = $("div.oxd-buzz-post-slot button");
     }
 
     public PublishNewPostMenu enterPostText(String text) {
-        WebElement textArea = wait.until(visibilityOfElementLocated(POST_TEXT_CONTENT_TEXTAREA_LOCATOR));
-        textArea.sendKeys(text);
+        textContentTextArea.shouldBe(enabled).setValue(text);
         return this;
     }
 
     public void clickPostButton() {
-        WebElement postButton = wait.until(visibilityOfElementLocated(POST_BUTTON_LOCATOR));
-        postButton.click();
+        postButton.shouldBe(enabled).click();
     }
 }
